@@ -21,13 +21,17 @@ def process_image(filename):
         # Изменение размера изображения
         resized_image = image.resize(new_size)
 
+        #Преобразование в черно-белый формат
+
+        grayscale_image = resized_image.convert("L")
+
         # Преобразование в формат RGB (если изображение имеет альфа-канал)
-        if resized_image.mode in ("RGBA", "LA") or (resized_image.mode == "P" and "transparency" in resized_image.info):
-            resized_image = resized_image.convert("RGB")
+        if grayscale_image.mode in ("RGBA", "LA") or (grayscale_image.mode == "P" and "transparency" in grayscale_image.info):
+            grayscale_image = grayscale_image.convert("RGB")
 
         # Сохранение изображения в формате .jpg в новой папке
         output_path = os.path.join(output_folder, os.path.splitext(filename)[0] + ".jpg")
-        resized_image.save(output_path, format="JPEG")
+        grayscale_image.save(output_path, format="JPEG")
 
         print(f"Изображение {filename} обработано и сохранено как {output_path}")
 
